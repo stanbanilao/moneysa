@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Preview only. Remove this file's restrictions after launch approval and SEO review.
