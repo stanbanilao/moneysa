@@ -109,7 +109,7 @@ function footer(){
  '<div><h4>Loan information</h4>'+loans.map(x=>link(x[0],x[1])).join("")+'</div>'+
  '<div><h4>Debt and other topics</h4>'+debt.map(x=>link(x[0],x[1])).join("")+link("/car-insurance","Motor")+'</div>'+
  '<div><h4>Explore</h4>'+[["/tools","Tools"],["/guides","Info Hub"],["/about","About"],["/contact","Contact"],["/privacy","Privacy"],["/terms","Terms"]].map(x=>link(x[0],x[1])).join("")+
- (isAfri()?'<a href="/" data-link>MoneySA main website</a>':link("/afriloan","Afri-Loan preview"))+'</div></div>'+
+ (isAfri()?'<a href="/" data-link data-global>MoneySA main website</a>':link("/afriloan","Afri-Loan preview"))+'</div></div>'+
  '<div class="footer-bottom"><span>© '+new Date().getFullYear()+' '+label+' · Unreleased concept</span><span>'+link("/privacy","Privacy")+link("/terms","Terms")+'</span></div></div></footer>';
 }
 function shell(inner,afri=false){
@@ -117,7 +117,7 @@ function shell(inner,afri=false){
  if(isAfri())inner=inner.replace(/MoneySA/g,"Afri-Loan");
  $("#app").innerHTML=header()+'<main id="main">'+inner+'</main>'+footer();
  const t=$("#menu-toggle");if(t)t.addEventListener("click",()=>{let open=$("#mobile-nav").classList.toggle("open");t.setAttribute("aria-expanded",String(open));t.setAttribute("aria-label",open?"Close menu":"Open menu")});
- document.querySelectorAll('a[data-link]').forEach(a=>a.addEventListener("click",e=>{let dest=a.getAttribute("href");if(!dest||dest[0]!=="/"||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(dest)}));
+ document.querySelectorAll('a[data-link]').forEach(a=>a.addEventListener("click",e=>{let dest=a.getAttribute("href");if(!dest||dest[0]!=="/"||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(a.hasAttribute("data-global")?dest:brandPath(dest))}));
 }
 function pageHero(kicker,title,desc,symbol="R"){
  return '<section class="page-hero"><div class="container"><div><p class="eyebrow">'+kicker+'</p><h1>'+title+'</h1><p class="lead">'+desc+'</p></div><div class="page-hero-art" aria-hidden="true">'+symbol+'</div></div></section>';
@@ -139,7 +139,7 @@ function home(){
 function servicePage(s){
  const related=SERVICES.filter(x=>x.slug!==s.slug&&x.group===s.group).slice(0,3);
  let main=pageHero(s.tag,s.headline,s.intro,s.symbol)+
- '<section class="section white"><div class="container content-grid"><article class="prose">'+s.sections.map(sec=>'<h2>'+sec[0]+'</h2>'+sec[1].map(p=>'<p>'+p+'</p>').join("")+(sec[2]?'<ul>'+sec[2].map(x=>'<li>'+x+'</li>').join("")+'</ul>':"")).join("")+'</article><aside class="aside-card"><span class="pill">Before you go further</span><h3>Start with the full picture.</h3><p>Explore a budget estimate, read a practical guide or try our preview questionnaire. None of these are approval decisions or actual application submissions.</p><div class="actions">'+btn("/tools","Use money tools","primary")+btn("/apply","Enquiry preview","outline")+'</div></aside></div></section>'+
+ '<section class="section white"><div class="container content-grid"><article class="prose">'+s.sections.map(sec=>'<h2>'+sec[0]+'</h2>'+sec[1].map(p=>'<p>'+p+'</p>').join("")+(sec[2]?'<ul>'+sec[2].map(x=>'<li>'+x+'</li>').join("")+'</ul>':"")).join("")+'</article><aside class="aside-card"><span class="pill">Before you go further</span><h3>Start with the full picture.</h3><p>Explore a budget estimate, read a practical guide or try our preview questionnaire. None of these are approval decisions or actual application submissions.</p><div class="actions">'+btn("/tools","Use money tools","primary")+(s.group==="Other options"?btn("/tools","Use planning tools","outline"):btn("/apply?type="+(s.group==="Loans"?"loan":"debt"),"Questionnaire demo","outline"))+'</div></aside></div></section>'+
  '<section class="section mint-bg"><div class="container">'+heading("KNOW BEFORE YOU DECIDE","Common questions about "+s.name.toLowerCase()+".")+faqBlock(s.faq)+'</div></section>'+
  '<section class="section white"><div class="container">'+heading("KEEP EXPLORING","You might also want to know.")+'<div class="grid cols-3">'+cards(related.length?related:SERVICES.slice(0,3))+'</div></div></section>';
  shell(main);
