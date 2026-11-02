@@ -114,7 +114,7 @@ function footer(){
 }
 function shell(inner,afri=false){
  document.body.className=(afri||isAfri())?"afri-body":"";
- if(isAfri())inner=inner.replace(/MoneySA/g,"Afri-Loan");
+ if(isAfri()){inner=inner.replace(/MoneySA/g,"Afri-Loan");if(!/^afriloan\./i.test(location.hostname))inner=inner.replace(/href="\/(?!afriloan(?:\/|"))/g,'href="/afriloan/');}
  $("#app").innerHTML=header()+'<main id="main">'+inner+'</main>'+footer();
  const t=$("#menu-toggle");if(t)t.addEventListener("click",()=>{let open=$("#mobile-nav").classList.toggle("open");t.setAttribute("aria-expanded",String(open));t.setAttribute("aria-label",open?"Close menu":"Open menu")});
  document.querySelectorAll('a[data-link]').forEach(a=>a.addEventListener("click",e=>{let dest=a.getAttribute("href");if(!dest||dest[0]!=="/"||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(a.hasAttribute("data-global")?dest:brandPath(dest))}));
@@ -250,6 +250,8 @@ function navigate(path,fromHistory=false){
  };
  slug=aliases[slug]||slug;
  const suffix=isAfri()?"Afri-Loan Finance":"MoneySA";
+ const meta=document.querySelector('meta[name="description"]');
+ if(meta)meta.setAttribute("content",isAfri()?"Afri-Loan Finance: transparent South African loan and debt-information previews. No lender matching or live applications.":"MoneySA: understand loan choices, debt options and everyday money decisions with interactive planning tools.");
  document.title=suffix+" | Financial information";
  if(!slug){isAfri()?afriPage():home();return}
  if(slug==="personal-loan-ab"){loanLandingPage();document.title="Personal loans | "+suffix;return}
