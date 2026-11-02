@@ -1,4 +1,5 @@
 
+import {loanLandingHtml,wireLoanLanding,questionnaireHtml,wireQuestionnaire} from "./journeys.js";
 const SERVICES = [
  {slug:"personal-loans",name:"Personal loans",group:"Loans",symbol:"R",tint:"tint",tag:"Borrowing basics",short:"Understand what lenders assess, what repayments mean and how to compare the complete cost.",headline:"Borrow with a clearer view.",intro:"A personal loan can help cover a planned expense. It is still a commitment to future repayments, so comparing the full cost matters more than a headline amount.",sections:[
  ["What a personal loan is",["Personal loans usually involve a fixed amount repaid over an agreed period. The provider decides whether to offer credit after assessing affordability and credit information.","The amount you request is not necessarily the amount you can afford. Ask for an itemised quotation showing the total amount payable."]],
@@ -66,27 +67,57 @@ const FAQ=[
 const $=(q,root=document)=>root.querySelector(q);
 const money=n=>"R"+Number(n||0).toLocaleString("en-ZA",{maximumFractionDigits:0});
 const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const link=(path,text,cls="")=>'<a data-link href="'+path+'" class="'+cls+'">'+text+'</a>';
+
+const afriBrandAsset = "data:image/webp;base64,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";
+const isAfri = () => /^afriloan\./i.test(location.hostname) || /^\/afriloan(?:\/|$)/i.test(location.pathname);
+const brandName = () => isAfri() ? "Afri-Loan Finance" : "MoneySA";
+const brandPath = path => {
+  if (!path.startsWith("/") || !isAfri() || /^afriloan\./i.test(location.hostname) || path.startsWith("/afriloan")) return path;
+  return "/afriloan" + (path === "/" ? "" : path);
+};
+const link=(path,text,cls="")=>'<a data-link href="'+brandPath(path)+'" class="'+cls+'">'+text+'</a>';
 const btn=(path,text,cls="primary")=>link(path,text+' <span class="arrow" aria-hidden="true">↗</span>',"button "+cls);
-const logo=()=>'<a href="/" data-link class="logo" aria-label="MoneySA home"><span class="logo-icon">m</span><span>money<em>sa</em></span></a>';
+const logo=()=> isAfri()
+  ? '<a href="'+brandPath('/')+'" data-link class="logo afri-header-logo" aria-label="Afri-Loan home"><img src="'+afriBrandAsset+'" alt="Afri-Loan Finance"></a>'
+  : '<a href="/" data-link class="logo" aria-label="MoneySA home"><span class="logo-icon">m</span><span>money<em>sa</em></span></a>';
 const serviceUrl=s=>"/"+s.slug;
 const cards=(items,limit)=>items.slice(0,limit||items.length).map(s=>'<article class="service-card '+s.tint+'"><div class="symbol '+(s.tint==="yellow"?"yellow":s.tint==="blue"?"aqua":"")+'" aria-hidden="true">'+s.symbol+'</div><h3>'+s.name+'</h3><p>'+s.short+'</p>'+link(serviceUrl(s),"Explore this topic <span aria-hidden='true'>↗</span>","text-link")+'</article>').join("");
 const faqBlock=(list)=>'<div class="faq-list">'+list.map(x=>'<details class="faq"><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>').join("")+'</div>';
 const heading=(tag,title,desc)=>'<div class="section-head"><div><p class="eyebrow">'+tag+'</p><h2>'+title+'</h2></div>'+(desc?'<p>'+desc+'</p>':"")+'</div>';
 const sharedQuestionNote='<p class="notice warn"><strong>Clear distinction:</strong> A loan enquiry is not a debt-review application. No enquiries are currently transmitted or sold through this preview.</p>';
 function header(){
- let current=location.pathname, nav=[["/personal-loans","Loans"],["/debt-consolidation","Debt support"],["/car-insurance","Car cover"],["/phones","Phones"],["/tools","Tools"],["/guides","Guides"],["/about","About"]];
- return '<div class="topline"><b>Preview site</b> · Education and interactive demonstrations only · No live enquiries or approvals</div><header class="site-header"><div class="container header-inner">'+logo()+
- '<nav class="desktop-nav" aria-label="Primary navigation">'+nav.map(n=>link(n[0],n[1],"nav-link "+(current===n[0]?"active":""))).join("")+'</nav><div class="header-right">'+btn("/apply","Start here","primary small")+'<button class="menu-btn" id="menu-toggle" aria-expanded="false" aria-label="Open menu" aria-controls="mobile-nav">☰</button></div></div><nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">'+nav.map(n=>link(n[0],n[1])).join("")+link("/contact","Contact")+link("/apply","Start here")+'</nav></header>';
+ const loans=[["/personal-loan-ab","Personal Loan"],["/short-term-loans","Payday Loan"],["/quick-loans","Quick Loan"],["/low-credit-loans","Low Credit Loan"]];
+ const debt=[["/debt-review","Debt Review"],["/debt-counselling","Debt Counselling"],["/debt-consolidation","Debt Consolidation"]];
+ const standalone=[["/car-insurance","Motor"],["/guides","Info Hub"],["/tools","Tools"],["/about","About"]];
+ const group=(name,items)=>'<details class="nav-group"><summary>'+name+'</summary><div class="nav-submenu">'+items.map(x=>link(x[0],x[1],"nav-dropdown-link")).join("")+'</div></details>';
+ return '<div class="topline"><b>Interactive preview</b> · Information only · No live loan approvals, debt-review enrolment or personal-data submissions</div>'+
+ '<header class="site-header"><div class="container header-inner">'+logo()+
+ '<nav class="desktop-nav" aria-label="Primary navigation">'+group("Loans",loans)+group("Debt",debt)+standalone.map(x=>link(x[0],x[1],"nav-link")).join("")+
+ '</nav><div class="header-right">'+btn("/personal-loan-ab","Explore a loan","primary small")+
+ '<button class="menu-btn" id="menu-toggle" aria-expanded="false" aria-label="Open menu" aria-controls="mobile-nav">☰</button></div></div>'+
+ '<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation"><b class="mobile-group-label">Loans</b>'+loans.map(x=>link(x[0],x[1])).join("")+
+ '<b class="mobile-group-label">Debt</b>'+debt.map(x=>link(x[0],x[1])).join("")+
+ '<b class="mobile-group-label">Explore</b>'+standalone.map(x=>link(x[0],x[1])).join("")+link("/contact","Contact")+link("/apply","Questionnaire demo")+'</nav></header>';
 }
 function footer(){
- return '<footer class="footer"><div class="container"><div class="footer-main"><div>'+logo()+'<p>MoneySA makes financial choices easier to understand. Compare concepts, explore planning tools and learn the questions to ask before making a decision.</p><p class="small">Informational preview. Not a lender, credit broker, insurance intermediary or registered debt counsellor.</p></div><div><h4>Loan topics</h4>'+SERVICES.filter(x=>x.group==="Loans").map(x=>link(serviceUrl(x),x.name)).join("")+'</div><div><h4>Debt and more</h4>'+SERVICES.filter(x=>x.group!=="Loans").map(x=>link(serviceUrl(x),x.name)).join("")+'</div><div><h4>MoneySA</h4>'+[["/tools","Planning tools"],["/guides","Information hub"],["/about","About"],["/contact","Contact"],["/privacy","Privacy"],["/terms","Terms"],["/afriloan","Afri-Loan preview"]].map(x=>link(x[0],x[1])).join("")+'</div></div><div class="footer-bottom"><span>© '+new Date().getFullYear()+' MoneySA · Concept preview · South Africa</span><span>Consumer protection matters · '+link("/privacy","Privacy")+link("/terms","Terms")+'</span></div></div></footer>';
+ const label=brandName();
+ const loans=[["/personal-loan-ab","Personal Loan"],["/short-term-loans","Payday Loan"],["/quick-loans","Quick Loan"],["/low-credit-loans","Low Credit Loan"]];
+ const debt=[["/debt-review","Debt Review"],["/debt-counselling","Debt Counselling"],["/debt-consolidation","Debt Consolidation"]];
+ return '<footer class="footer"><div class="container"><div class="footer-main"><div>'+logo()+
+ '<p>'+label+' provides clearer financial education, informative journeys and demonstration planning tools.</p>'+
+ '<p class="small">Pre-launch concept: not a lender, registered debt counsellor or loan intermediary. No real applications or provider referrals.</p></div>'+
+ '<div><h4>Loan information</h4>'+loans.map(x=>link(x[0],x[1])).join("")+'</div>'+
+ '<div><h4>Debt and other topics</h4>'+debt.map(x=>link(x[0],x[1])).join("")+link("/car-insurance","Motor")+'</div>'+
+ '<div><h4>Explore</h4>'+[["/tools","Tools"],["/guides","Info Hub"],["/about","About"],["/contact","Contact"],["/privacy","Privacy"],["/terms","Terms"]].map(x=>link(x[0],x[1])).join("")+
+ (isAfri()?'<a href="/" data-link data-global>MoneySA main website</a>':link("/afriloan","Afri-Loan preview"))+'</div></div>'+
+ '<div class="footer-bottom"><span>© '+new Date().getFullYear()+' '+label+' · Unreleased concept</span><span>'+link("/privacy","Privacy")+link("/terms","Terms")+'</span></div></div></footer>';
 }
 function shell(inner,afri=false){
- document.body.className=afri?"afri-body":"";
+ document.body.className=(afri||isAfri())?"afri-body":"";
+ if(isAfri()){inner=inner.replace(/MoneySA/g,"Afri-Loan");if(!/^afriloan\./i.test(location.hostname))inner=inner.replace(/href="\/(?!afriloan(?:\/|"))/g,'href="/afriloan/');}
  $("#app").innerHTML=header()+'<main id="main">'+inner+'</main>'+footer();
  const t=$("#menu-toggle");if(t)t.addEventListener("click",()=>{let open=$("#mobile-nav").classList.toggle("open");t.setAttribute("aria-expanded",String(open));t.setAttribute("aria-label",open?"Close menu":"Open menu")});
- document.querySelectorAll('a[data-link]').forEach(a=>a.addEventListener("click",e=>{let dest=a.getAttribute("href");if(!dest||dest[0]!=="/"||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(dest)}));
+ document.querySelectorAll('a[data-link]').forEach(a=>a.addEventListener("click",e=>{let dest=a.getAttribute("href");if(!dest||dest[0]!=="/"||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();navigate(a.hasAttribute("data-global")?dest:brandPath(dest))}));
 }
 function pageHero(kicker,title,desc,symbol="R"){
  return '<section class="page-hero"><div class="container"><div><p class="eyebrow">'+kicker+'</p><h1>'+title+'</h1><p class="lead">'+desc+'</p></div><div class="page-hero-art" aria-hidden="true">'+symbol+'</div></div></section>';
@@ -94,7 +125,7 @@ function pageHero(kicker,title,desc,symbol="R"){
 function home(){
  const top=SERVICES.filter(s=>["personal-loans","debt-consolidation","debt-review"].includes(s.slug));
  const extra=SERVICES.filter(s=>["short-term-loans","low-credit-loans","car-insurance","phones"].includes(s.slug));
- const html='<section class="hero"><div class="container hero-grid"><div class="hero-copy"><p class="eyebrow">MONEY CHOICES. MADE CLEARER.</p><h1>Your money story deserves <span>a clearer next chapter.</span></h1><p class="lead">Loans, debt options and everyday money decisions can feel complicated. Explore the possibilities, understand the trade-offs and decide what makes sense for you.</p><div class="actions">'+btn("/personal-loans","Explore loan options")+btn("/debt-review","Understand debt help","outline")+'</div><div class="hero-points"><span><i class="tick">✓</i> Plain-language guidance</span><span><i class="tick">✓</i> Free planning tools</span><span><i class="tick">✓</i> No approval promises</span></div></div><div class="hero-stage"><div class="hero-card"><span class="pill">Your next step starts here</span><h3>What are you looking into?</h3><p>Choose the topic that best describes your goal. Each option leads to distinct information.</p><div class="purpose-buttons"><button data-dest="/personal-loans"><span aria-hidden="true">↗</span>Explore a loan</button><button data-dest="/debt-review"><span aria-hidden="true">≋</span>Understand debt help</button></div>'+btn("/apply","Try the enquiry preview","mint")+'<p class="form-note" style="margin-top:1rem;margin-bottom:0">Demo only. Your personal information is not collected.</p></div><div class="float-note one">Clarity over complexity</div><div class="float-note two">Made for South Africa</div></div></div></section>'+
+ const html='<section class="hero"><div class="container hero-grid"><div class="hero-copy"><p class="eyebrow">MONEY CHOICES. MADE CLEARER.</p><h1>Your money story deserves <span>a clearer next chapter.</span></h1><p class="lead">Loans, debt options and everyday money decisions can feel complicated. Explore the possibilities, understand the trade-offs and decide what makes sense for you.</p><div class="actions">'+btn("/personal-loan-ab","Explore loan options")+btn("/debt-review","Understand debt help","outline")+'</div><div class="hero-points"><span><i class="tick">✓</i> Plain-language guidance</span><span><i class="tick">✓</i> Free planning tools</span><span><i class="tick">✓</i> No approval promises</span></div></div><div class="hero-stage"><div class="hero-card"><span class="pill">Your next step starts here</span><h3>What are you looking into?</h3><p>Choose the topic that best describes your goal. Each option leads to distinct information.</p><div class="purpose-buttons"><button data-dest="/personal-loans"><span aria-hidden="true">↗</span>Explore a loan</button><button data-dest="/debt-review"><span aria-hidden="true">≋</span>Understand debt help</button></div>'+btn("/apply","Try the enquiry preview","mint")+'<p class="form-note" style="margin-top:1rem;margin-bottom:0">Demo only. Your personal information is not collected.</p></div><div class="float-note one">Clarity over complexity</div><div class="float-note two">Made for South Africa</div></div></div></section>'+
  '<section class="section white"><div class="container">'+heading("START WITH WHAT MATTERS","Different questions. Different routes.","Explore a topic first. We never switch a loan enquiry into debt review without making that distinction clear.")+'<div class="grid cols-3">'+cards(top)+'</div></div></section>'+
  '<section class="section mint-bg"><div class="container benefit-rail"><div class="editorial"><p class="eyebrow">OUR APPROACH</p><h2>Understand the cost. Not just the promise.</h2><p>Financial products are easier to compare when you can see how monthly commitments relate to the whole picture. Start with your budget, ask clear questions and avoid decisions made under pressure.</p>'+btn("/tools","Try the money tools")+'</div><div class="info-stack"><div class="info-item"><span class="tick">✓</span><div><h3>Know what you are applying for</h3><p>Loan enquiries and debt-review information are separate journeys.</p></div></div><div class="info-item"><span class="tick">✓</span><div><h3>Look beyond the monthly repayment</h3><p>Interest, fees and repayment periods all affect the total cost.</p></div></div><div class="info-item"><span class="tick">✓</span><div><h3>Keep your information in your hands</h3><p>This preview does not submit, save or share enquiry details.</p></div></div></div></div></section>'+
  '<section class="section white"><div class="container">'+heading("MORE TO EXPLORE","The rest of the money picture.","Read about short-term borrowing, credit records, insurance and device commitments.")+'<div class="grid cols-4">'+cards(extra)+'</div></div></section>'+
@@ -108,7 +139,7 @@ function home(){
 function servicePage(s){
  const related=SERVICES.filter(x=>x.slug!==s.slug&&x.group===s.group).slice(0,3);
  let main=pageHero(s.tag,s.headline,s.intro,s.symbol)+
- '<section class="section white"><div class="container content-grid"><article class="prose">'+s.sections.map(sec=>'<h2>'+sec[0]+'</h2>'+sec[1].map(p=>'<p>'+p+'</p>').join("")+(sec[2]?'<ul>'+sec[2].map(x=>'<li>'+x+'</li>').join("")+'</ul>':"")).join("")+'</article><aside class="aside-card"><span class="pill">Before you go further</span><h3>Start with the full picture.</h3><p>Explore a budget estimate, read a practical guide or try our preview questionnaire. None of these are approval decisions or actual application submissions.</p><div class="actions">'+btn("/tools","Use money tools","primary")+btn("/apply","Enquiry preview","outline")+'</div></aside></div></section>'+
+ '<section class="section white"><div class="container content-grid"><article class="prose">'+s.sections.map(sec=>'<h2>'+sec[0]+'</h2>'+sec[1].map(p=>'<p>'+p+'</p>').join("")+(sec[2]?'<ul>'+sec[2].map(x=>'<li>'+x+'</li>').join("")+'</ul>':"")).join("")+'</article><aside class="aside-card"><span class="pill">Before you go further</span><h3>Start with the full picture.</h3><p>Explore a budget estimate, read a practical guide or try our preview questionnaire. None of these are approval decisions or actual application submissions.</p><div class="actions">'+btn("/tools","Use money tools","primary")+(s.group==="Other options"?btn("/tools","Use planning tools","outline"):btn("/apply?type="+(s.group==="Loans"?"loan":"debt"),"Questionnaire demo","outline"))+'</div></aside></div></section>'+
  '<section class="section mint-bg"><div class="container">'+heading("KNOW BEFORE YOU DECIDE","Common questions about "+s.name.toLowerCase()+".")+faqBlock(s.faq)+'</div></section>'+
  '<section class="section white"><div class="container">'+heading("KEEP EXPLORING","You might also want to know.")+'<div class="grid cols-3">'+cards(related.length?related:SERVICES.slice(0,3))+'</div></div></section>';
  shell(main);
@@ -185,31 +216,56 @@ function termsPage(){
  shell(pageHero("DRAFT WEBSITE TERMS","Know what this site can and cannot do.","Plain-language terms for this demonstration, pending a verified operator and legal review.","≡")+
  '<section class="section white"><div class="container content-grid"><article class="prose"><div class="notice warn">PRE-LAUNCH DRAFT · Add the correct business identity, address, complaints contact and legal review before going live.</div><h2>1. Purpose</h2><p>MoneySA currently provides general educational content, calculators and demonstration forms. It does not provide personalised financial advice, credit or insurance products, debt counselling or live referrals.</p><h2>2. No applications or offers</h2><p>Completing a preview form does not create an application, contract, credit score enquiry, approval, counselling appointment or legal debt-review record. No money is advanced through this website.</p><h2>3. Calculators</h2><p>Calculators are simplified illustrations. They do not include all possible charges, taxes, insurance costs or individual circumstances and must not be treated as financial quotations or affordability assessments.</p><h2>4. Content</h2><p>Information is general and may become outdated as laws and commercial products change. Verify details directly with relevant registered providers or qualified advisers before acting.</p><h2>5. Your information</h2><p>Do not input actual ID numbers, bank credentials, confidential documents or other sensitive data into demonstration forms. See the <a data-link href="/privacy">draft privacy notice</a>.</p><h2>6. Third-party links</h2><p>External references are provided for context. They are not endorsements or proof of any commercial relationship.</p><h2>7. Launch requirements</h2><p>Commercial representations, product provider relationships, disclosures, contact channels and consumer complaints processes must be verified before this preview becomes an operational marketplace.</p><h2>8. Status</h2><p>Draft dated 1 November 2026, subject to business-owner and legal review.</p></article><aside class="aside-card"><h3>Questions about a topic?</h3><p>Start in our guides or use the simple calculation tools.</p>'+btn("/guides","Information hub")+'</aside></div></section>');
 }
+function loanLandingPage(){
+ shell(loanLandingHtml(brandName()));
+ wireLoanLanding(path=>navigate(brandPath(path)));
+}
+function newApplicationPage(){
+ const start=new URLSearchParams(location.search).get("type")||"loan";
+ shell(questionnaireHtml(brandName()));
+ wireQuestionnaire(path=>navigate(brandPath(path)),start);
+}
 function afriPage(){
- let html='<section class="afri-hero"><div class="container afri-hero-grid"><div><img class="afri-logo" src="data:image/webp;base64,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" alt="Afri-Loan Finance — We got you covered" onerror="this.style.display=\'none\'"><p class="eyebrow" style="color:#e8bd83">AFRI-LOAN · PRE-LAUNCH CONCEPT</p><h1>Financial choices with a clearer starting point.</h1><p class="lead">Afri-Loan is being prepared as a distinct, branded experience within the MoneySA website family. This page is an informational preview, not an active loan service.</p><div class="actions">'+btn("/personal-loans","Understand personal loans","light")+btn("/tools","Explore planning tools","outline")+'</div></div><div class="afri-ornament" aria-hidden="true">R</div></div></section>'+
- '<section class="section white"><div class="container">'+heading("AFRI-LOAN FINANCE","Before anything else, understand the terms.","No registered lender or referral relationship has been verified for this concept.")+'<div class="grid cols-3"><div class="feature-card"><div class="symbol">R</div><h3>Borrowing basics</h3><p>Learn about instalments, fees and the full cost of credit.</p>'+link("/personal-loans","Explore borrowing ↗","text-link")+'</div><div class="feature-card"><div class="symbol">≈</div><h3>Check your budget</h3><p>Use illustrative tools before taking on another repayment.</p>'+link("/tools","Try the tools ↗","text-link")+'</div><div class="feature-card"><div class="symbol">◎</div><h3>Understand debt help</h3><p>Debt review is a separate process and never an automatic loan application outcome.</p>'+link("/debt-review","Read more ↗","text-link")+'</div></div></div></section>'+
- '<section class="section compact mint-bg"><div class="container"><p class="notice warn"><strong>Domain plan:</strong> This content is designed for afriloan.moneysa.co.za. Connecting that hostname is a separate Vercel and DNS task. The page is accessible at /afriloan in the MoneySA preview.</p></div></section>';
- shell(html,true);
+ const intro='<section class="afri-welcome"><div class="container"><p class="eyebrow">AFRI-LOAN FINANCE · A MONEYSA CONCEPT</p>'+
+ '<h1>A simpler conversation about borrowing.</h1>'+
+ '<p>Explore personal loans and debt-related topics in a dedicated Afri-Loan experience. No provider is connected, and no applications are being accepted.</p></div></section>';
+ shell(intro+loanLandingHtml("Afri-Loan Finance"),true);
+ wireLoanLanding(path=>navigate(brandPath(path)));
 }
 function notFound(){shell(pageHero("NOT FOUND","That page has moved, or is not available.","Use the navigation or start from the MoneySA homepage.","?")+'<section class="section compact"><div class="container">'+btn("/","Back to MoneySA")+'</div></section>')}
 function navigate(path,fromHistory=false){
  if(!fromHistory)history.pushState({},"",path);
  window.scrollTo({top:0,behavior:"instant"});
  let slug=location.pathname.replace(/^\/|\/$/g,"");
- document.title="MoneySA | Money choices made clearer";
- if(location.hostname.toLowerCase().startsWith("afriloan.")){afriPage();document.title="Afri-Loan Finance | MoneySA";return}
- if(!slug){home();return}
- let s=SERVICES.find(x=>x.slug===slug);if(s){servicePage(s);document.title=s.name+" | MoneySA";return}
- if(slug==="apply"){applyPage();document.title="Enquiry preview | MoneySA";return}
- if(slug==="tools"){toolsPage();document.title="Money planning tools | MoneySA";return}
- if(slug==="guides"){guides();document.title="Information hub | MoneySA";return}
- if(slug.startsWith("guides/")){let g=GUIDES.find(x=>x.slug===slug.split("/")[1]);if(g){article(g);document.title=g.title+" | MoneySA";return}}
- if(slug==="about"){aboutPage();document.title="About MoneySA";return}
- if(slug==="contact"){contactPage();document.title="Contact MoneySA";return}
- if(slug==="privacy"){privacyPage();document.title="Privacy notice | MoneySA";return}
- if(slug==="terms"){termsPage();document.title="Terms | MoneySA";return}
- if(slug==="afriloan"){afriPage();document.title="Afri-Loan Finance preview";return}
- notFound();document.title="Not found | MoneySA";
+ if(slug==="afriloan")slug="";
+ else if(slug.startsWith("afriloan/"))slug=slug.slice(9);
+ const aliases={
+  "payday-loan":"short-term-loans",
+  "quick-loan":"quick-loans",
+  "blacklisted-low-credit-score-loan":"low-credit-loans",
+  "debt-counselling":"debt-counselling",
+  "motor":"car-insurance",
+  "info-hub":"guides",
+  "personal-loan":"personal-loan-ab"
+ };
+ slug=aliases[slug]||slug;
+ const suffix=isAfri()?"Afri-Loan Finance":"MoneySA";
+ const meta=document.querySelector('meta[name="description"]');
+ if(meta)meta.setAttribute("content",isAfri()?"Afri-Loan Finance: transparent South African loan and debt-information previews. No lender matching or live applications.":"MoneySA: understand loan choices, debt options and everyday money decisions with interactive planning tools.");
+ document.title=suffix+" | Financial information";
+ if(!slug){isAfri()?afriPage():home();return}
+ if(slug==="personal-loan-ab"){loanLandingPage();document.title="Personal loans | "+suffix;return}
+ if(slug==="apply"){newApplicationPage();document.title="Questionnaire demo | "+suffix;return}
+ const s=SERVICES.find(x=>x.slug===slug);
+ if(s){servicePage(s);document.title=s.name+" | "+suffix;return}
+ if(slug==="tools"){toolsPage();document.title="Money tools | "+suffix;return}
+ if(slug==="guides"){guides();document.title="Info Hub | "+suffix;return}
+ if(slug.startsWith("guides/")){const g=GUIDES.find(x=>x.slug===slug.split("/")[1]);if(g){article(g);document.title=g.title+" | "+suffix;return}}
+ if(slug==="about"){aboutPage();document.title="About | "+suffix;return}
+ if(slug==="contact"){contactPage();document.title="Contact | "+suffix;return}
+ if(slug==="privacy"){privacyPage();document.title="Privacy | "+suffix;return}
+ if(slug==="terms"){termsPage();document.title="Terms | "+suffix;return}
+ notFound();document.title="Page not found | "+suffix;
 }
 window.addEventListener("popstate",()=>navigate(location.pathname,true));
 navigate(location.pathname,true);

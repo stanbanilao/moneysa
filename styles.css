@@ -41,3 +41,93 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}b
 @media(max-width:850px){.desktop-nav{display:none}.menu-btn{display:flex}.header-inner .button.small{display:inline-flex}.hero-grid,.benefit-rail,.page-hero .container,.content-grid,.tool-panels,.contact-grid,.afri-hero-grid{grid-template-columns:1fr}.hero{padding-bottom:50px}.hero-stage{min-height:420px}.hero-card{max-width:490px;width:calc(100% - 2rem)}.float-note.one{right:2%}.float-note.two{left:2%}.page-hero-art{display:none}.cols-4{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(2,1fr)}.aside-card{position:static}.footer-main{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.container{width:min(100% - 32px,1180px)}.header-inner{min-height:68px}.header-inner .button.small{display:none}.hero h1{font-size:clamp(2.7rem,12vw,4rem)}.hero-copy .lead{font-size:1rem}.hero-points{gap:.6rem}.hero-stage{min-height:360px}.hero-card{transform:none;padding:1.2rem;border-radius:20px}.hero-card>*{transform:none}.hero-stage:before{border-radius:55px 30px 50px 70px;inset:2%}.float-note{display:none}.cols-2,.cols-3,.cols-4,.steps,.field-grid,.choice-grid,.results-grid{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:1rem}.section{padding:60px 0}.section.compact{padding:45px 0}.service-card,.feature-card{padding:1.55rem}.pledge{grid-template-columns:1fr;padding:2rem;border-radius:24px}.page-hero{padding:52px 0 47px}.tool-panel,.tool-output{padding:1.4rem}.wizard-top{padding:1.5rem}.wizard-body{padding:1.4rem}.wizard-footer{flex-direction:column-reverse;align-items:stretch}.wizard-footer .button{width:100%}.footer-main{grid-template-columns:1fr 1fr;gap:2rem 1rem}.footer-main>div:first-child{grid-column:span 2}.footer{padding-top:52px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+
+/* Reference-informed loan/debt navigation and brand-separated lead journeys */
+.nav-group{position:relative;align-self:stretch;display:flex;align-items:center}
+.nav-group summary{font-size:.82rem;color:#355a60;font-weight:800;cursor:pointer;list-style:none;border-bottom:2px solid transparent;padding:.6rem .2rem;user-select:none}
+.nav-group summary::-webkit-details-marker{display:none}
+.nav-group summary::after{content:"⌄";margin-left:.35rem;font-weight:800}
+.nav-group[open] summary,.nav-group summary:hover{color:var(--teal);border-color:var(--teal)}
+.nav-submenu{position:absolute;z-index:35;top:calc(100% - 4px);left:-1rem;display:grid;min-width:230px;border:1px solid var(--line);background:var(--white);border-radius:16px;padding:.65rem;box-shadow:0 16px 50px #1a4d4f21}
+.nav-dropdown-link{display:block;padding:.72rem .85rem;font-size:.86rem;font-weight:700;color:var(--ink);border-radius:10px;white-space:nowrap}
+.nav-dropdown-link:hover,.nav-dropdown-link:focus-visible{background:var(--mint-soft);color:var(--teal)}
+.mobile-group-label{display:block;padding:.9rem .45rem .25rem;color:var(--teal);font-size:.78rem;letter-spacing:.05em}
+.loan-reference{padding:clamp(64px,8vw,116px) 0;background:radial-gradient(circle at 88% 18%,#caf1da 0,transparent 28%),linear-gradient(126deg,#effaf3 0%,#e5f8ef 75%,#d3ecdf 100%);position:relative}
+.loan-reference-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:clamp(2.2rem,6vw,6rem)}
+.loan-reference-copy h1{font-size:clamp(2.8rem,5.4vw,5.5rem);max-width:660px}
+.loan-reference-copy h1 span{color:var(--teal)}
+.loan-reference-copy .lead{margin:1.7rem 0 1.4rem}
+.loan-reference-checks{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;margin:1.3rem 0 1.5rem}
+.loan-reference-checks span{font-size:.83rem;font-weight:800;color:var(--ink)}
+.loan-reference-caption{font-size:.85rem;color:var(--muted);max-width:520px}
+.funnel-lead-card{background:#fff;border-radius:28px;padding:clamp(1.5rem,3vw,2.6rem);box-shadow:0 30px 75px #11695c21;border:1px solid var(--line);position:relative;z-index:1}
+.funnel-card-head h2{font-size:clamp(1.7rem,2.6vw,2.45rem);margin:1rem 0 .6rem}
+.funnel-card-head p{color:var(--muted);font-size:.91rem}
+.funnel-fieldset{padding:0;margin:1.3rem 0 1.7rem;border:0;min-inline-size:0}
+.funnel-fieldset legend{padding:0;font-weight:800;font-size:.91rem;margin-bottom:.8rem}
+.funnel-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
+.funnel-choice{display:flex;gap:.55rem;align-items:center;padding:.78rem .85rem;background:#fbfefc;border:1.5px solid #c8dfd6;border-radius:12px;cursor:pointer;font-size:.83rem;font-weight:700;line-height:1.3;min-height:55px;transition:border-color .2s,background .2s}
+.funnel-choice:has(input:checked){border-color:var(--teal);background:var(--mint-soft)}
+.funnel-choice input{width:18px;height:18px;accent-color:var(--teal);flex:none}
+.funnel-choice:focus-within{outline:2px solid var(--teal);outline-offset:2px}
+.funnel-page-head{padding-bottom:52px}
+.funnel-wizard{max-width:920px}
+.funnel-wizard .wizard-top h2{margin-top:1rem}
+.funnel-wizard .wizard-body>form h3{font-size:clamp(1.4rem,2.5vw,1.95rem)}
+.funnel-step-meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.82rem;font-weight:800;color:var(--teal);padding-bottom:1.2rem;margin-bottom:1.5rem;border-bottom:1px solid var(--line)}
+.funnel-after-notice{max-width:920px;margin:1.25rem auto}
+.afri-body{
+  --ink:#64283a;--ink-deep:#471827;--teal:#8b552f;--teal-deep:#754224;--mint:#f5d9aa;--mint-soft:#fff3dc;--aqua:#f9eae8;--cream:#fffaf6;--muted:#6f5b62;--line:#ebdcd9;--orange:#dba56b;--gold:#cf9e54;--danger:#b83a4d;
+  background:var(--cream);
+}
+.afri-body .topline{background:#451624;color:#fae7cf}
+.afri-body .site-header{background:#fffaf9;border-color:#ead9d9}
+.afri-header-logo{background:#612638;border-radius:12px;display:flex;padding:7px 12px;height:54px;min-width:164px}
+.afri-header-logo img{width:174px;height:38px;object-fit:contain;display:block}
+.afri-body .nav-link,.afri-body .nav-group summary{color:#654351}
+.afri-body .nav-link:hover,.afri-body .nav-group[open] summary{color:var(--teal)}
+.afri-body .button.primary{background:#622637;color:#fff}
+.afri-body .button.primary:hover{background:#7c354a}
+.afri-body .button.mint{background:#f5d9aa;color:#4b2030}
+.afri-body .loan-reference{background:radial-gradient(circle at 88% 18%,#f3e0c4 0,transparent 26%),linear-gradient(130deg,#fff8f0 20%,#f6e9e9 95%)}
+.afri-body .loan-reference-copy h1 span{color:#9b6036}
+.afri-body .funnel-lead-card{box-shadow:0 30px 70px #64283a19}
+.afri-body .funnel-choice{background:#fffcfa;border-color:#ead6ce}
+.afri-body .funnel-choice:has(input:checked){background:#fff2dc;border-color:#a7773a}
+.afri-body .mint-bg{background:#fff2e5}
+.afri-body .aqua-bg{background:#f7ebed}
+.afri-body .symbol,.afri-body .tick{color:#623143}
+.afri-body .wizard-top{background:#5b2434}
+.afri-body .footer{background:#411b2b}
+.afri-body .pledge{background:#572336}
+.afri-welcome{background:#5c2636;color:#fff6ed;padding:clamp(35px,5vw,65px) 0}
+.afri-welcome .eyebrow{color:#eac48e}
+.afri-welcome h1{font-size:clamp(2rem,3.8vw,3.8rem)}
+.afri-welcome p{max-width:690px;color:#f1dedd;margin:0}
+@media(max-width:1120px){
+ .desktop-nav{gap:.7rem}
+ .nav-link,.nav-group summary{font-size:.75rem}
+ .afri-header-logo{min-width:145px}
+ .afri-header-logo img{width:150px}
+}
+@media(max-width:970px){
+ .desktop-nav{display:none}
+ .menu-btn{display:flex}
+ .mobile-nav.open{display:grid}
+}
+@media(max-width:850px){
+ .loan-reference-grid{grid-template-columns:1fr}
+ .loan-reference-copy{max-width:740px}
+ .funnel-lead-card{max-width:660px;width:100%;margin:auto}
+}
+@media(max-width:560px){
+ .loan-reference{padding:55px 0 66px}
+ .loan-reference-copy h1{font-size:clamp(2.65rem,11vw,4.1rem)}
+ .funnel-choice-grid{grid-template-columns:1fr}
+ .funnel-choice{min-height:48px}
+ .funnel-lead-card{border-radius:20px}
+ .funnel-step-meta{flex-wrap:wrap}
+ .afri-header-logo{height:48px;min-width:130px;padding:5px 8px}
+ .afri-header-logo img{height:34px;width:130px}
+}
